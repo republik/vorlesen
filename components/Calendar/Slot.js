@@ -2,6 +2,7 @@ import { css, merge } from 'glamor'
 import { useEffect, useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import {
+  useColorContext,
   Checkbox,
   CheckIcon,
   InlineSpinner,
@@ -34,14 +35,21 @@ const CANCEL_CALENDAR_SLOT = gql`
 
 const styles = {
   slot: css({
-    minWidth: '2rem',
+    minWidth: '3rem',
     minHeight: '5rem',
+  }),
+  day: css({
+    minWidth: '3rem',
+  }),
+  suggestion: css({
+    borderRadius: '1rem',
+    padding: '0 0.5rem',
   }),
   missingSlot: css({
     opacity: 0.5,
   }),
   weekday: css({
-    minWidth: '2rem',
+    minWidth: '3rem',
     minHeight: '2rem',
     textTransform: 'uppercase',
   }),
@@ -67,6 +75,7 @@ export default function Slot({ date, slot }) {
   const [book, bookResult] = useMutation(BOOK_CALENDAR_SLOT)
   const [cancel, cancelResult] = useMutation(CANCEL_CALENDAR_SLOT)
   const [error, setError] = useState(false)
+  const [colorScheme] = useColorContext()
 
   useEffect(() => {
     const errorObject = bookResult.error || cancelResult.error || false
@@ -79,6 +88,7 @@ export default function Slot({ date, slot }) {
   const isLoading = bookResult.loading || cancelResult.loading
   const isImmutable = !slot.userCanBook && !slot.userCanCancel
   const isBooked = slot.userHasBooked
+  const isSuggested = !isImmutable && slot.users.length === 0
 
   const reset = () => {
     bookResult.reset?.()
@@ -98,11 +108,22 @@ export default function Slot({ date, slot }) {
     }
   }
 
+  const suggestionStyle = merge(
+    styles.suggestion,
+    isSuggested && colorScheme.set('color', 'default'),
+    isSuggested && colorScheme.set('backgroundColor', 'primary'),
+  )
+
   return (
     <div {...styles.slot}>
-      <div>
-        <Interaction.P>{date.format('D')}</Interaction.P>
+      {/* Day */}
+      <div {...styles.day}>
+        <Interaction.P>
+          <span {...suggestionStyle}>{date.format('D')}</span>
+        </Interaction.P>
       </div>
+
+      {/* Interactive section */}
       <div>
         {/* Loading indicator */}
         {isLoading && <InlineSpinner size={'1.5rem'} />}
