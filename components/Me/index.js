@@ -12,25 +12,6 @@ const GET_ME = gql`
   }
 `
 
-const styles = {
-  slot: css({
-    minWidth: '2rem',
-    minHeight: '4rem',
-  }),
-  missingSlot: css({
-    opacity: 0.5,
-  }),
-  weekday: css({
-    minWidth: '2rem',
-    minHeight: '2rem',
-    textTransform: 'uppercase',
-    fontSize: '0.8rem',
-  }),
-  hint: css({
-    padding: '1rem',
-  }),
-}
-
 export default function Me() {
   const options = {
     ssr: false,
