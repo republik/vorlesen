@@ -5,7 +5,6 @@ import { generateDays, getLocalizedWeekdays } from '../../lib/utils'
 const weekdayNames = getLocalizedWeekdays()
 
 const styles = {
-  grid: css({}),
   week: css({
     display: 'flex',
     alignItems: 'center',
@@ -43,7 +42,7 @@ export default function Grid({
   }
 
   return (
-    <div {...styles.grid}>
+    <>
       {[...weeks].map((weekNumber, i) => {
         return (
           <div key={weekNumber}>
@@ -88,6 +87,6 @@ export default function Grid({
           </div>
         )
       })}
-    </div>
+    </>
   )
 }
