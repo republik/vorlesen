@@ -1,4 +1,3 @@
-import { css } from 'glamor'
 import { gql, useQuery } from '@apollo/client'
 import { Interaction, A } from '@project-r/styleguide'
 
