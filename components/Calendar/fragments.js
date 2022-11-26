@@ -14,5 +14,8 @@ export const fragmentSlot = gql`
     userCanBook
     userHasBooked
     userCanCancel
+    users {
+      id
+    }
   }
 `

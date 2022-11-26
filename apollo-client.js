@@ -1,6 +1,16 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
-const config = {}
+const config = {
+  typePolicies: {
+    CalendarSlot: {
+      fields: {
+        users: {
+          merge: (_, incoming) => incoming,
+        },
+      },
+    },
+  },
+}
 
 const client = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_API_URL,
