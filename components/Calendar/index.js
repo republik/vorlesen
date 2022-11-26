@@ -6,6 +6,8 @@ import DatePicker from './DatePicker'
 import Grid from './Grid'
 import Hint from './Hint'
 import Slot, { Placeholder, Weekday } from './Slot'
+import Caption from './Caption'
+
 import { fragmentCalendar, fragmentSlot } from './fragments'
 
 import { getFromTo } from '../../lib/utils'
@@ -60,6 +62,7 @@ export default function Calendar() {
         weekdayAsComponent={Weekday}
         placeholderAsComponent={Placeholder}
       />
+      <Caption />
     </>
   )
 }

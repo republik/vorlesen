@@ -33,10 +33,10 @@ const CANCEL_CALENDAR_SLOT = gql`
   ${fragmentSlot}
 `
 
-const styles = {
+export const styles = {
   slot: css({
     minWidth: '3rem',
-    minHeight: '5rem',
+    minHeight: '4.5rem',
   }),
   day: css({
     minWidth: '3rem',
@@ -111,7 +111,7 @@ export default function Slot({ date, slot }) {
   const suggestionStyle = merge(
     styles.suggestion,
     isSuggested && colorScheme.set('color', 'default'),
-    isSuggested && colorScheme.set('backgroundColor', 'primary'),
+    isSuggested && colorScheme.set('backgroundColor', 'accentColorOppinion'),
   )
 
   return (
