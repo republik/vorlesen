@@ -17,7 +17,7 @@ const client = new ApolloClient({
   credentials: 'include',
   cache: new InMemoryCache(config),
   name: 'republik/vorlesen',
-  version: '0.1',
+  version: '0.2',
 })
 
 export default client
