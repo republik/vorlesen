@@ -44,25 +44,25 @@ export default function Caption() {
         <div {...styles.element}>
           <span {...suggestionStyle}>{dayjs().format('D')}</span>
         </div>
-        <div>Tag, den die Republik für eine Buchung bevorzugt</div>
+        <div>Tag, den die Republik für eine Belegung favorisiert</div>
       </div>
       <div {...styles.item}>
         <div {...styles.element}>
           <Checkbox onChange={() => {}} />
         </div>
-        <div>Tag, den du buchen kannst. Klick reserviert den Tag</div>
+        <div>Tag, den du belegen kannst. Klick belegt den Tag</div>
       </div>
       <div {...styles.item}>
         <div {...styles.element}>
           <Checkbox checked onChange={() => {}} />
         </div>
-        <div>Tag, den du gebucht hast. Klick gibt Tag wieder frei</div>
+        <div>Tag, den du belegt hast. Klick gibt Tag wieder frei</div>
       </div>
       <div {...styles.item}>
         <div {...styles.element}>
           <IconButton Icon={CheckIcon} size={'1.2rem'} />
         </div>
-        <div>Tag, den du in der Vergangenheit reserviert hattest</div>
+        <div>Tag, den du in der Vergangenheit belegt hattest</div>
       </div>
     </>
   )
