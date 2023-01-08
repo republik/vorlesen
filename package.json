@@ -1,8 +1,7 @@
 {
-  "name": "urne",
-  "description": "Yet another voting page but tiny",
-  "version": "0.2.0",
-  "private": true,
+  "name": "vorlesen",
+  "description": "Tiny calendar slot booking page",
+  "version": "0.3.0",
   "engines": {
     "node": "^14"
   },
