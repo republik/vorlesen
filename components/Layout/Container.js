@@ -25,11 +25,6 @@ export default function Layout({ children }) {
     setTab(tabs.findIndex((tab) => tab.route === router.pathname))
   }, [router.pathname])
 
-  const createRoute = (href) => (e) => {
-    e?.preventDefault()
-    router.push(href)
-  }
-
   return (
     <NarrowContainer>
       <Head>
@@ -47,7 +42,7 @@ export default function Layout({ children }) {
               key={`nav-tab-${index}`}
               text={text}
               isActive={tab === index}
-              onClick={createRoute(route)}
+              onClick={() => router.push(route)}
             />
           ))}
         </Scroller>
