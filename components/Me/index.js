@@ -7,7 +7,7 @@ export default function Me() {
 
   return (
     <Interaction.P>
-      {!me && (
+      {!loading && !me && (
         <>
           Du bist nicht angemeldet.
           {process.env.NEXT_PUBLIC_SIGNIN_URL && (
