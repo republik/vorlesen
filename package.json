@@ -12,7 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.9",
+    "@apollo/client": "^3.7.5",
     "@project-r/styleguide": "^14.0.3",
     "d3-array": "1.x",
     "d3-color": "1.x",
@@ -23,7 +23,7 @@
     "d3-shape": "1.x",
     "d3-time": "1.x",
     "d3-time-format": "2.x",
-    "dayjs": "^1.11.5",
+    "dayjs": "^1.11.7",
     "downshift": "^2.2.2",
     "glamor": "^2.20.40",
     "graphql": "^16.6.0",
@@ -39,21 +39,21 @@
     "react-textarea-autosize": "^5.1.0",
     "scroll-into-view": "1.15.0",
     "topojson": "3.x",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.19.1",
+    "@babel/core": "7.20.12",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/preset-react": "^7.16.7",
-    "@typescript-eslint/eslint-plugin": "^5.38.1",
-    "@typescript-eslint/parser": "^5.38.1",
-    "eslint": "8.24.0",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "8.33.0",
     "eslint-config-next": "12.3.1",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.7.1",
-    "typescript": "^4.8.3"
+    "prettier": "^2.8.3",
+    "typescript": "^4.9.4"
   }
 }
