@@ -1,8 +1,11 @@
-import dayjs from 'dayjs'
 import { useState } from 'react'
+import { css } from 'glamor'
+
 import { useQuery } from '@apollo/client'
 import { Scroller, TabButton } from '@project-r/styleguide'
-import { css } from 'glamor'
+
+import { useMe } from '../../lib/contexts/me'
+import { getDayjs } from '../../lib/utils'
 
 import { GET_SLOTS } from '../Calendar'
 
@@ -14,8 +17,22 @@ const styles = {
   }),
 }
 
+function createFilterSlotBooked(me) {
+  const isEditor = me?.roles?.includes?.('editor')
+
+  return function filterNotMeVoice(slot) {
+    if (isEditor) {
+      return true
+    }
+
+    return slot.userHasBooked
+  }
+}
+
 export default function Calendar() {
-  const [anchor] = useState(dayjs().startOf('day'))
+  const { me } = useMe()
+
+  const [anchor] = useState(getDayjs().startOf('day'))
   const [tab, setTab] = useState(0)
 
   const options = {
@@ -23,22 +40,23 @@ export default function Calendar() {
     variables: {
       slug: process.env.NEXT_PUBLIC_CALENDAR_SLUG,
       from: anchor.toISOString(),
-      to: anchor.add(30, 'days').toISOString(),
+      to: anchor.add(7, 'days').toISOString(),
     },
   }
+
   const { data, loading } = useQuery(GET_SLOTS, options)
 
-  const slots = data?.me?.calendar?.slots?.filter((slot) => slot.userHasBooked)
+  const slots = data?.me?.calendar?.slots?.filter(createFilterSlotBooked(me))
 
   const slot = slots?.[tab]
-  const date = slot && dayjs(slot.key)
+  const date = slot && getDayjs(slot.key)
 
   return (
     <>
       <div {...styles.tabsContainer}>
         <Scroller activeChildIndex={tab}>
           {slots?.map((slot, index) => {
-            const day = dayjs(slot.key)
+            const day = getDayjs(slot.key)
 
             return (
               <TabButton

@@ -1,6 +1,9 @@
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 
-import { Button, Interaction } from '@project-r/styleguide'
+import { Button, Interaction, useColorContext } from '@project-r/styleguide'
+
+import { getDayjs, getVoiceContributors } from '../../lib/utils'
+import { useMemo } from 'react'
 
 const styles = {
   container: css({
@@ -9,6 +12,11 @@ const styles = {
   actions: css({
     padding: '1rem 0 0 0',
   }),
+  state: css({
+    margin: '1rem 0 1rem 0',
+    padding: '.5rem 1rem',
+  }),
+  headline: css({}),
 }
 
 function PublicationLink({ repo }) {
@@ -34,7 +42,7 @@ function PublicationLink({ repo }) {
 
   return (
     <Button href={publicationUrl.toString()} target='_blank'>
-      Beitrag ansehen
+      Publizierte Version
     </Button>
   )
 }
@@ -60,24 +68,79 @@ function PreviewLink({ repo }) {
 
   return (
     <Button href={previewUrl.toString()} target='_blank'>
-      Vorschau
+      Vorschau-Version
     </Button>
   )
 }
 
 export default function Repo({ repo }) {
-  const document = repo.latestCommit?.document
+  const [colorScheme] = useColorContext()
 
-  const title = [document?.meta?.format?.meta?.title, document?.meta?.title]
-    .filter(Boolean)
-    .join(': ')
+  const document = repo.latestCommit?.document
+  const hasAudioFile = !!document?.meta?.audioSource?.mp3
+
+  const state =
+    (['proofReading', 'finalControl', 'ready'].includes(
+      repo.currentPhase.key,
+    ) &&
+      !hasAudioFile &&
+      'not-ready') ||
+    (repo.currentPhase.key === 'scheduled' &&
+      getDayjs().diff(repo.latestCommit.date, 'minute') < 30 &&
+      !hasAudioFile &&
+      'not-ready') ||
+    (['scheduled', 'published'].includes(repo.currentPhase.key) &&
+      !hasAudioFile &&
+      'ready') ||
+    (hasAudioFile && 'done') ||
+    'unkown'
+
+  const headlineStyle = merge(
+    styles.headline,
+    colorScheme.set('color', 'textSoft'),
+  )
+
+  const stateStyle = useMemo(() => {
+    const backgroundColor =
+      (state === 'not-ready' && 'error') ||
+      (state === 'ready' && 'primary') ||
+      (state === 'done' && 'alert') ||
+      'disabled'
+
+    const color = (state === 'done' && 'text') || 'white'
+
+    return merge(
+      styles.state,
+      colorScheme.set('color', color),
+      colorScheme.set('backgroundColor', backgroundColor),
+    )
+  }, [state])
+
+  const headline =
+    document?.meta?.format?.meta?.title || document?.meta?.series?.title
+  const title = document?.meta?.title
+
+  const voiceContributors = getVoiceContributors(document)
+    ?.map((contributor) => contributor?.name)
+    .join(', ')
 
   return (
     <div {...styles.container}>
-      <Interaction.P>{title}</Interaction.P>
+      <Interaction.P>
+        <div {...stateStyle}>
+          {state === 'not-ready' && <>Beitrag noch unfertig</>}
+          {state === 'ready' && <>Beitrag bereit für Vorlesen</>}
+          {state === 'done' && <>Gelesen von {voiceContributors}</>}
+          {state === 'unkown' && <>(unklar, ob parat)</>}
+        </div>
+      </Interaction.P>
+      <Interaction.P>
+        {headline && <span {...headlineStyle}>{headline} </span>}
+        {title}
+      </Interaction.P>
       <div {...styles.actions}>
-        <PreviewLink repo={repo} />
-        <PublicationLink repo={repo} />
+        <PreviewLink repo={repo} primary={state === 'ready'} />
+        <PublicationLink repo={repo} primary={state === 'ready'} />
       </div>
     </div>
   )
