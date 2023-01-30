@@ -1,13 +1,14 @@
 import { gql, useQuery } from '@apollo/client'
 
-import { useMe } from '../Me/enhancers'
+import { useMe } from '../../lib/contexts/me'
+import { getVoiceContributors } from '../../lib/utils'
 
 import Repo from './Repo'
 
 const GET_DOCUMENTS = gql`
   query GetPublicationsDay($from: DateTime!, $until: DateTime!) {
     reposSearch(
-      phases: [scheduled, published]
+      phases: [proofReading, finalControl, ready, scheduled, published]
       publishDateRange: { from: $from, until: $until }
     ) {
       nodes {
@@ -21,13 +22,6 @@ const GET_DOCUMENTS = gql`
           document {
             meta {
               title
-              willBeReadAloud
-              contributors {
-                kind
-                user {
-                  id
-                }
-              }
               format {
                 id
                 meta {
@@ -36,6 +30,17 @@ const GET_DOCUMENTS = gql`
               }
               series {
                 title
+              }
+              willBeReadAloud
+              contributors {
+                kind
+                name
+                user {
+                  id
+                }
+              }
+              audioSource {
+                mp3
               }
             }
           }
@@ -60,11 +65,14 @@ function filterNotReadAloud(repo) {
 }
 
 function createFilterNotMeVoice(me) {
+  const isEditor = me?.roles?.includes?.('editor')
+
   return function filterNotMeVoice(repo) {
-    const contributors = repo.latestCommit?.document?.meta?.contributors
-    const voiceContributors = contributors?.filter(
-      (contributor) => contributor.kind === 'voice',
-    )
+    if (isEditor) {
+      return true
+    }
+
+    const voiceContributors = getVoiceContributors(repo.latestCommit?.document)
 
     if (!voiceContributors?.length) {
       return true

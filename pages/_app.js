@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client'
 import { ColorContextProvider } from '@project-r/styleguide'
 
-import MeContextProvider from '../components/Me/enhancers'
+import MeContextProvider from '../lib/contexts/me'
 import LayoutContainer from '../components/Layout/Container'
 import '../styles/globals.css'
 
