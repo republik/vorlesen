@@ -31,11 +31,6 @@ export default function Index() {
   return (
     <>
       <Interaction.P>
-        Du bist als <strong>{me.name || me.email}</strong> angemeldet. Schön,
-        bist du da.
-      </Interaction.P>
-      <HR />
-      <Interaction.P>
         Du kannst in dieser Mini-App im{' '}
         <Link href='/calendar' passHref>
           <A>Kalender</A>

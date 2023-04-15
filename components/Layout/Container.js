@@ -5,6 +5,8 @@ import { css } from 'glamor'
 
 import { Scroller, TabButton, NarrowContainer } from '@project-r/styleguide'
 
+import User from '../User'
+
 const styles = {
   tabsContainer: css({
     padding: '0 0 1rem 0',
@@ -36,6 +38,7 @@ export default function Layout({ children }) {
         <meta name='robots' content='noindex,nofollow' />
       </Head>
       <div {...styles.tabsContainer}>
+        <User />
         <Scroller activeChildIndex={tab}>
           {tabs?.map(({ text, route }, index) => (
             <TabButton
