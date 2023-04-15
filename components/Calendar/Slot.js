@@ -14,7 +14,7 @@ import Error from './Error'
 import { fragmentSlot } from './fragments'
 
 const BOOK_CALENDAR_SLOT = gql`
-  mutation BookCalendarSlot($id: ID!) {
+  mutation VorlesenBookCalendarSlot($id: ID!) {
     bookCalendarSlot(id: $id) {
       ...Slot
     }
@@ -24,7 +24,7 @@ const BOOK_CALENDAR_SLOT = gql`
 `
 
 const CANCEL_CALENDAR_SLOT = gql`
-  mutation CancelCalendarSlot($id: ID!) {
+  mutation VorlesenCancelCalendarSlot($id: ID!) {
     cancelCalendarSlot(id: $id) {
       ...Slot
     }

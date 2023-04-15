@@ -13,7 +13,7 @@ import { fragmentCalendar, fragmentSlot } from './fragments'
 import { getFromTo } from '../../lib/utils'
 
 export const GET_SLOTS = gql`
-  query GetCalendar($slug: String!, $from: DateTime!, $to: DateTime!) {
+  query VorlesenGetSlots($slug: String!, $from: DateTime!, $to: DateTime!) {
     me {
       id
       calendar(slug: $slug) {

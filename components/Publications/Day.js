@@ -6,7 +6,7 @@ import { getVoiceContributors } from '../../lib/utils'
 import Repo from './Repo'
 
 const GET_DOCUMENTS = gql`
-  query GetPublicationsDay($from: DateTime!, $until: DateTime!) {
+  query VorlesenGetDocuments($from: DateTime!, $until: DateTime!) {
     reposSearch(
       phases: [proofReading, finalControl, ready, scheduled, published]
       publishDateRange: { from: $from, until: $until }
