@@ -9,12 +9,12 @@ const styles = {
     height: 48,
     display: 'flex',
     alignItems: 'center',
-    gap: 24,
+    gap: 16,
     margin: '1rem 0',
   }),
   portrait: css({
-    width: 48,
-    height: 48,
+    width: 32,
+    height: 32,
     backgroundSize: 'cover',
   }),
 }
@@ -30,9 +30,7 @@ export default function User() {
           style={{ backgroundImage: `url(${me?.portrait})` }}
         ></div>
       )}
-      <div>
-        <Interaction.P>{me?.name}</Interaction.P>
-        </div>
+      <div>{me?.name}</div>
     </div>
   )
 }
