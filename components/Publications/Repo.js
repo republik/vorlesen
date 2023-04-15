@@ -42,7 +42,7 @@ function PublicationLink({ repo }) {
 
   return (
     <Button href={publicationUrl.toString()} target='_blank'>
-      Publizierte Version
+      Öffnen
     </Button>
   )
 }
@@ -68,7 +68,7 @@ function PreviewLink({ repo }) {
 
   return (
     <Button href={previewUrl.toString()} target='_blank'>
-      Vorschau-Version
+      Öffnen
     </Button>
   )
 }
