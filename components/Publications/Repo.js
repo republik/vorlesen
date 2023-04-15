@@ -126,14 +126,14 @@ export default function Repo({ repo }) {
 
   return (
     <div {...styles.container}>
-      <Interaction.P>
-        <div {...stateStyle}>
+      <div {...stateStyle}>
+        <Interaction.P>
           {state === 'not-ready' && <>Beitrag noch unfertig</>}
           {state === 'ready' && <>Beitrag bereit für Vorlesen</>}
           {state === 'done' && <>Gelesen von {voiceContributors}</>}
           {state === 'unkown' && <>(unklar, ob parat)</>}
-        </div>
-      </Interaction.P>
+        </Interaction.P>
+      </div>
       <Interaction.P>
         {headline && <span {...headlineStyle}>{headline} </span>}
         {title}
