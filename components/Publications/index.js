@@ -1,39 +1,19 @@
 import { useState } from 'react'
-import { css } from 'glamor'
 
 import { useQuery } from '@apollo/client'
-import { Scroller, TabButton } from '@project-r/styleguide'
+import { Interaction } from '@project-r/styleguide'
 
 import { useMe } from '../../lib/contexts/me'
-import { getDayjs } from '../../lib/utils'
+import { getDayjs, createFilterSlotBooked } from '../../lib/utils'
 
 import { GET_SLOTS } from '../Calendar'
 
-import Day from './Day'
+import Repos from './Repos'
 
-const styles = {
-  tabsContainer: css({
-    padding: '0 0 1rem 0',
-  }),
-}
-
-function createFilterSlotBooked(me) {
-  const isEditor = me?.roles?.includes?.('editor')
-
-  return function filterNotMeVoice(slot) {
-    if (isEditor) {
-      return true
-    }
-
-    return slot.userHasBooked
-  }
-}
-
-export default function Calendar() {
+export default function Publications() {
   const { me } = useMe()
 
   const [anchor] = useState(getDayjs().startOf('day'))
-  const [tab, setTab] = useState(0)
 
   const options = {
     ssr: false,
@@ -46,31 +26,15 @@ export default function Calendar() {
 
   const { data, loading } = useQuery(GET_SLOTS, options)
 
+  if (loading) {
+    return <>Lade…</>
+  }
+
   const slots = data?.me?.calendar?.slots?.filter(createFilterSlotBooked(me))
 
-  const slot = slots?.[tab]
-  const date = slot && getDayjs(slot.key)
+  if (!slots.length) {
+    return <Interaction.P>Keine belegten Tage</Interaction.P>
+  }
 
-  return (
-    <>
-      <div {...styles.tabsContainer}>
-        <Scroller activeChildIndex={tab}>
-          {slots?.map((slot, index) => {
-            const day = getDayjs(slot.key)
-
-            return (
-              <TabButton
-                key={slot.id}
-                text={day.format('dd, D. MMMM')}
-                isActive={tab === index}
-                onClick={() => setTab(index)}
-              />
-            )
-          })}
-          {loading && <>Lade…</>}
-        </Scroller>
-      </div>
-      {date && <Day date={date} />}
-    </>
-  )
+  return <Repos anchor={anchor} slots={slots} />
 }

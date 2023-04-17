@@ -10,7 +10,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: 16,
-    margin: '1rem 0',
+    margin: '1rem 0 0 0',
   }),
   portrait: css({
     width: 32,
