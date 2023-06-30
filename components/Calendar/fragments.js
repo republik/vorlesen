@@ -7,6 +7,17 @@ export const fragmentCalendar = gql`
   }
 `
 
+export const fragmentUser = gql`
+  fragment User on User {
+    id
+    name
+    initials
+    email
+    roles
+    portrait(properties: { height: 96, width: 96 })
+  }
+`
+
 export const fragmentSlot = gql`
   fragment Slot on CalendarSlot {
     id
@@ -15,7 +26,9 @@ export const fragmentSlot = gql`
     userHasBooked
     userCanCancel
     users {
-      id
+      ...User
     }
   }
+
+  ${fragmentUser}
 `
