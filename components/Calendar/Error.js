@@ -5,7 +5,7 @@ import {
   Interaction,
 } from '@project-r/styleguide'
 
-export default function Error({ error, onClose }) {
+export const getMessages = (error) => {
   const messages = error?.graphQLErrors
     ?.map((e) => e?.message)
     .map((message, i) => <Interaction.P key={i}>{message}</Interaction.P>)
@@ -13,6 +13,12 @@ export default function Error({ error, onClose }) {
   if (!messages?.length) {
     return null
   }
+
+  return messages
+}
+
+export default function Error({ error, onClose }) {
+  const messages = getMessages(error)
 
   return (
     <Overlay onClose={onClose}>
