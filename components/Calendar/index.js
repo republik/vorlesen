@@ -2,20 +2,19 @@ import dayjs from 'dayjs'
 import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 
+import { getFromTo } from '../../lib/utils'
 import DatePicker from './DatePicker'
 import Grid from './Grid'
 import Hint from './Hint'
 import Slot, { Placeholder, Weekday } from './Slot'
+import Stats from './Stats'
 import Caption from './Caption'
-
-import { fragmentCalendar, fragmentSlot } from './fragments'
-
-import { getFromTo } from '../../lib/utils'
+import { fragmentCalendar, fragmentSlot, fragmentUser } from './fragments'
 
 export const GET_SLOTS = gql`
   query VorlesenGetSlots($slug: String!, $from: DateTime!, $to: DateTime!) {
     me {
-      id
+      ...User
       calendar(slug: $slug) {
         ...Calendar
         slots(from: $from, to: $to) {
@@ -25,6 +24,7 @@ export const GET_SLOTS = gql`
     }
   }
 
+  ${fragmentUser}
   ${fragmentCalendar}
   ${fragmentSlot}
 `
@@ -63,6 +63,7 @@ export default function Calendar() {
         weekdayAsComponent={Weekday}
         placeholderAsComponent={Placeholder}
       />
+      <Stats slots={slots} />
       <Caption />
     </>
   )
