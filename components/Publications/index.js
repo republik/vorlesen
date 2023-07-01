@@ -17,6 +17,7 @@ export default function Publications() {
 
   const options = {
     ssr: false,
+    skip: !me,
     variables: {
       slug: process.env.NEXT_PUBLIC_CALENDAR_SLUG,
       from: anchor.toISOString(),

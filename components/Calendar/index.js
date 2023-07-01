@@ -37,6 +37,7 @@ export default function Calendar() {
 
   const options = {
     ssr: false,
+    skip: !me,
     variables: {
       slug: process.env.NEXT_PUBLIC_CALENDAR_SLUG,
       ...getFromTo(anchor),
