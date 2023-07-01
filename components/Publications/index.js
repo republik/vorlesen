@@ -11,7 +11,7 @@ import { GET_SLOTS } from '../Calendar'
 import Repos from './Repos'
 
 export default function Publications() {
-  const { me } = useMe()
+  const { me, isEditorMode } = useMe()
 
   const [anchor] = useState(getDayjs().startOf('day'))
 
@@ -31,7 +31,9 @@ export default function Publications() {
     return <>Lade…</>
   }
 
-  const slots = data?.me?.calendar?.slots?.filter(createFilterSlotBooked(me))
+  const slots = data?.me?.calendar?.slots?.filter(
+    createFilterSlotBooked(me, isEditorMode),
+  )
 
   if (!slots?.length) {
     return <Interaction.P>Keine belegten Tage</Interaction.P>

@@ -87,7 +87,7 @@ const styles = {
 }
 
 export default function Repos({ slots, anchor }) {
-  const { me } = useMe()
+  const { me, isEditorMode } = useMe()
 
   const options = {
     ssr: false,
@@ -105,7 +105,7 @@ export default function Repos({ slots, anchor }) {
 
   const repos = data?.reposSearch?.nodes
     ?.filter(filterNotReadAloud)
-    .filter(createFilterNotMeVoice(me))
+    .filter(createFilterNotMeVoice(me, isEditorMode))
 
   return (
     <>
@@ -120,6 +120,12 @@ export default function Repos({ slots, anchor }) {
           <div key={slot.key} {...styles.container}>
             <div {...styles.date}>
               <Interaction.H3>{date.format('dddd, D. MMMM')}</Interaction.H3>
+              {isEditorMode && (
+                <Interaction.P>
+                  {slot.users.map((user) => user.name).join(', ')}
+                  {!slot?.users?.length && 'unbelegt'}
+                </Interaction.P>
+              )}
             </div>
             {!datesRepos.length && (
               <div {...styles.nothing}>

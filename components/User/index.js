@@ -1,8 +1,7 @@
 import { css } from 'glamor'
 
-import { Interaction } from '@project-r/styleguide'
-
 import { useMe } from '../../lib/contexts/me'
+import { Checkbox } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -20,7 +19,11 @@ const styles = {
 }
 
 export default function User() {
-  const { me } = useMe()
+  const { me, isEditor, isEditorMode, setEditorMode } = useMe()
+
+  const handleEditorMode = () => {
+    setEditorMode(!isEditorMode)
+  }
 
   return (
     <div {...styles.container}>
@@ -31,6 +34,13 @@ export default function User() {
         ></div>
       )}
       <div>{me?.name}</div>
+      {isEditor && (
+        <div style={{ marginTop: '.4rem' }}>
+          <Checkbox onChange={handleEditorMode} checked={isEditorMode}>
+            Editor-Modus
+          </Checkbox>
+        </div>
+      )}
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { getFromTo, isEditor } from '../../lib/utils'
 import { useMe } from '../../lib/contexts/me'
-import EditorModeToggle from './EditorModeToggle'
 import DatePicker from './DatePicker'
 import Grid from './Grid'
 import Hint from './Hint'
@@ -59,7 +58,6 @@ export default function Calendar() {
       {!isLoading && !hasSlots && (
         <Hint>Ihrem Konto stehen keine Kalenderdaten zur Verfügung.</Hint>
       )}
-      {isEditor && <EditorModeToggle />}
       <DatePicker date={anchor.clone()} onPick={setAnchor} />
       <Grid
         anchor={anchor.format('YYYY-MM-DD')}
