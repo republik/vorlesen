@@ -1,5 +1,6 @@
 import { css } from 'glamor'
 import { Checkbox } from '@project-r/styleguide'
+import { useMe } from '../../lib/contexts/me'
 
 export const styles = {
   container: css({
@@ -7,7 +8,17 @@ export const styles = {
   }),
 }
 
-export default function EditorModeToggle({ isEditorMode, handleEditorMode }) {
+export default function EditorModeToggle() {
+  const { isEditor, isEditorMode, setEditorMode } = useMe()
+
+  const handleEditorMode = () => {
+    setEditorMode(!isEditorMode)
+  }
+
+  if (!isEditor) {
+    return null
+  }
+
   return (
     <div {...styles.container}>
       <Checkbox onChange={handleEditorMode} checked={isEditorMode}>

@@ -2,6 +2,7 @@ import { css, merge } from 'glamor'
 import { useColorContext, Interaction, Label } from '@project-r/styleguide'
 import User from './User'
 import Editor from './Editor'
+import { useMe } from '../../../lib/contexts/me'
 
 export const styles = {
   slot: css({
@@ -42,9 +43,9 @@ export function Weekday({ weekdayName }) {
 }
 
 export default function Slot({ date, slot }) {
+  const { isEditorMode } = useMe()
   const [colorScheme] = useColorContext()
 
-  const isEditorMode = slot.isEditorMode
   const isImmutable = !slot.userCanBook && !slot.userCanCancel
   const isSuggested = !isImmutable && !slot.users.length
 

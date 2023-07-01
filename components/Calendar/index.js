@@ -31,9 +31,8 @@ export const GET_SLOTS = gql`
 `
 
 export default function Calendar() {
-  const { me } = useMe()
+  const { me, isEditor, isEditorMode } = useMe()
   const [anchor, setAnchor] = useState(dayjs().startOf('month'))
-  const [isEditorMode, setEditorMode] = useState(false)
 
   const options = {
     ssr: false,
@@ -45,18 +44,11 @@ export default function Calendar() {
   }
   const { data, loading: isLoading } = useQuery(GET_SLOTS, options)
 
-  const handleEditorMode = () => {
-    if (isEditor(me)) {
-      setEditorMode(!isEditorMode)
-    }
-  }
-
   // @TODO: handle network errors (Bad Request, etc.)
 
   const slots =
     data?.me?.calendar?.slots?.map((slot) => ({
       ...slot,
-      isEditorMode,
       slotAsComponent: Slot,
     })) || []
 
@@ -67,12 +59,7 @@ export default function Calendar() {
       {!isLoading && !hasSlots && (
         <Hint>Ihrem Konto stehen keine Kalenderdaten zur Verfügung.</Hint>
       )}
-      {isEditor(me) && (
-        <EditorModeToggle
-          isEditorMode={isEditorMode}
-          handleEditorMode={handleEditorMode}
-        />
-      )}
+      {isEditor && <EditorModeToggle />}
       <DatePicker date={anchor.clone()} onPick={setAnchor} />
       <Grid
         anchor={anchor.format('YYYY-MM-DD')}
