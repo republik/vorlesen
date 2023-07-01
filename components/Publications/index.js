@@ -32,7 +32,7 @@ export default function Publications() {
 
   const slots = data?.me?.calendar?.slots?.filter(createFilterSlotBooked(me))
 
-  if (!slots.length) {
+  if (!slots?.length) {
     return <Interaction.P>Keine belegten Tage</Interaction.P>
   }
 
