@@ -1,6 +1,5 @@
 import { css, merge } from 'glamor'
 import { useColorContext, Interaction, Label } from '@project-r/styleguide'
-import { useMe } from '../../../lib/contexts/me'
 import User from './User'
 import Editor from './Editor'
 
@@ -43,11 +42,9 @@ export function Weekday({ weekdayName }) {
 }
 
 export default function Slot({ date, slot }) {
-  const { me } = useMe()
-
   const [colorScheme] = useColorContext()
 
-  const isEditor = me?.roles?.includes('editor')
+  const isEditorMode = slot.isEditorMode
   const isImmutable = !slot.userCanBook && !slot.userCanCancel
   const isSuggested = !isImmutable && !slot.users.length
 
@@ -66,8 +63,8 @@ export default function Slot({ date, slot }) {
         </Interaction.P>
       </div>
 
-      {!isEditor && <User date={date} slot={slot} />}
-      {isEditor && <Editor date={date} slot={slot} />}
+      {!isEditorMode && <User date={date} slot={slot} />}
+      {isEditorMode && <Editor date={date} slot={slot} />}
     </div>
   )
 }
