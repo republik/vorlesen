@@ -48,12 +48,10 @@ const CANCEL_CALENDAR_SLOT_USER = gql`
   ${fragmentSlot}
 `
 
-export default function Editor({ date, slot }) {
-  const usersResult = useQuery(GET_USERS)
+function UserSlotEditor({ user, slot }) {
   const [book, bookResult] = useMutation(BOOK_CALENDAR_SLOT_USER)
   const [cancel, cancelResult] = useMutation(CANCEL_CALENDAR_SLOT_USER)
   const [error, setError] = useState(false)
-  const [isOpen, setOpen] = useState(false)
 
   useEffect(() => {
     const errorObject = bookResult.error || cancelResult.error || false
@@ -63,15 +61,14 @@ export default function Editor({ date, slot }) {
     }
   }, [bookResult.error, cancelResult.error])
 
-  const users = usersResult?.data?.users
-
-  const loading =
-    (!users?.length && usersResult.loading) ||
-    bookResult.loading ||
-    cancelResult.loading
+  const slotBookedUserIds = slot.users.map((user) => user.id)
+  const isBooked = slotBookedUserIds.includes(user.id)
+  const loading = bookResult.loading || cancelResult.loading
 
   const handleChangeCheckbox = ({ user, action }) => {
     const variables = { id: slot.id, userId: user.id }
+
+    setError(false)
 
     if (action === 'book') {
       return book({ variables })
@@ -82,20 +79,34 @@ export default function Editor({ date, slot }) {
     }
   }
 
-  const handleClose = () => {
-    bookResult.reset?.()
-    cancelResult.reset?.()
-    setError(false)
-    setOpen(false)
-  }
+  const action = isBooked ? 'cancel' : 'book'
 
-  const slotBookedUserIds = slot.users.map((user) => user.id)
+  return (
+    <div key={user.id} style={{ minHeight: '3rem' }}>
+      <Checkbox
+        onChange={() => handleChangeCheckbox({ user, action })}
+        checked={isBooked}
+        disabled={loading}
+      >
+        {user.name}{' '}
+        {getMessages(error, ({ children }) => (
+          <span>{children}</span>
+        ))}
+        {loading && <InlineSpinner size={'1rem'} />}
+      </Checkbox>
+    </div>
+  )
+}
+
+export default function Editor({ date, slot }) {
+  const usersResult = useQuery(GET_USERS)
+  const [isOpen, setOpen] = useState(false)
+
+  const loading = usersResult.loading
+  const users = usersResult?.data?.users
 
   return (
     <>
-      {/* Loading indicator */}
-      {loading && <InlineSpinner size={'1.5rem'} />}
-
       {!loading && (
         <div {...styles.clickable} onClick={() => setOpen(true)}>
           {slot?.users?.map((user) => (
@@ -108,31 +119,15 @@ export default function Editor({ date, slot }) {
       )}
 
       {isOpen && (
-        <Overlay onClose={handleClose}>
+        <Overlay onClose={() => setOpen(false)}>
           <OverlayToolbar
             title={date.format('dddd, D. MMMM YYYY')}
-            onClose={handleClose}
+            onClose={() => setOpen(false)}
           />
           <OverlayBody>
-            {users.map((user) => {
-              const isBooked = slotBookedUserIds.includes(user.id)
-              const action = isBooked ? 'cancel' : 'book'
-
-              return (
-                <div key={user.id} style={{ minHeight: '2rem' }}>
-                  <Checkbox
-                    onChange={() => handleChangeCheckbox({ user, action })}
-                    checked={isBooked}
-                    disabled={loading}
-                  >
-                    {user.name}
-                  </Checkbox>
-                </div>
-              )
-            })}
-
-            {/* Error occured */}
-            {error && getMessages(error)}
+            {users.map((user) => (
+              <UserSlotEditor key={user.id} user={user} slot={slot} />
+            ))}
           </OverlayBody>
         </Overlay>
       )}
