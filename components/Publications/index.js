@@ -8,7 +8,7 @@ import { getDayjs, createFilterSlotBooked } from '../../lib/utils'
 
 import { GET_SLOTS } from '../Calendar'
 
-import Repos from './Repos'
+import List from './List'
 
 export default function Publications() {
   const { me, isEditorMode } = useMe()
@@ -39,5 +39,5 @@ export default function Publications() {
     return <Interaction.P>Keine belegten Tage</Interaction.P>
   }
 
-  return <Repos anchor={anchor} slots={slots} />
+  return <List anchor={anchor} slots={slots} />
 }

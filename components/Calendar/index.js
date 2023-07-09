@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { getFromTo, isEditor } from '../../lib/utils'
+import { getFromTo } from '../../lib/utils'
 import { useMe } from '../../lib/contexts/me'
 import DatePicker from './DatePicker'
 import Grid from './Grid'
@@ -30,7 +30,7 @@ export const GET_SLOTS = gql`
 `
 
 export default function Calendar() {
-  const { me, isEditor, isEditorMode } = useMe()
+  const { me, isEditorMode } = useMe()
   const [anchor, setAnchor] = useState(dayjs().startOf('month'))
 
   const options = {

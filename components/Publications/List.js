@@ -10,7 +10,7 @@ import {
   createFilterNotMeVoice,
 } from '../../lib/utils'
 
-import Repo from './Repo'
+import Item from './Item'
 
 const GET_REPOS = gql`
   query VorlesenGetRepos($first: Int, $from: DateTime!, $until: DateTime!) {
@@ -134,7 +134,7 @@ export default function Repos({ slots, anchor }) {
             )}
             {datesRepos.map((repo) => (
               <div key={repo.id} {...styles.repo}>
-                <Repo repo={repo} />
+                <Item repo={repo} />
               </div>
             ))}
             {/* <pre>{JSON.stringify(datesRepos, null, 2)}</pre> */}
