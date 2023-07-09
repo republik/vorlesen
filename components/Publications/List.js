@@ -1,5 +1,4 @@
 import { css } from 'glamor'
-
 import { gql, useQuery } from '@apollo/client'
 import { Interaction } from '@project-r/styleguide'
 
@@ -90,12 +89,13 @@ export default function Repos({ slots, anchor }) {
   const { me, isEditorMode } = useMe()
 
   const options = {
-    ssr: false,
     variables: {
       first: 5 * 7,
       from: anchor.toISOString(),
       until: anchor.add(7, 'days').endOf('day').toISOString(),
     },
+    pollInterval: 1000 * 60 * 1, // poll every minute
+    ssr: false,
   }
   const { data, loading } = useQuery(GET_REPOS, options)
 
