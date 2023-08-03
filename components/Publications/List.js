@@ -122,7 +122,10 @@ export default function Repos({ slots, anchor }) {
               <Interaction.H3>{date.format('dddd, D. MMMM')}</Interaction.H3>
               {isEditorMode && (
                 <Interaction.P>
-                  {slot.users.map((user) => user.name).join(', ')}
+                  {slot.users
+                    .map((user) => user.name)
+                    .filter(Boolean)
+                    .join(', ')}
                   {!slot?.users?.length && 'unbelegt'}
                 </Interaction.P>
               )}
